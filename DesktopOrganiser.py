@@ -1,19 +1,28 @@
 import os
 
-# Configs
+    # Configs
+
 _directory = 'C:\\Users\\seang\\OneDrive\\Desktop\\Test'
+_useCurrentDir = False
 _renameFile = False
+_testMode = True
+
 
 def readFiles():
     fileNames = []
     inp = '_'
 
     # Get all files in Directory with {inp} in name
-    thisdir = os.getcwd()
+
+    #if(_useCurrentDir):
+        #_directory = os.getcwd()
+    
+    print('current:'+os.getcwd())
+
     for r, d, f in os.walk(_directory):
         for file in f:
             filepath = os.path.join(r, file)
-            if inp in file:                
+            if inp in file:                                
                 fileNames.append(os.path.join(r, file))               
     print(f" {len(fileNames)} files found.")
 
@@ -31,7 +40,7 @@ def newFolder(fileName):
 
     # Check if path exists and create
     #print('Changing ' + fn + ' to ' + pathname + '...')
-    if not os.path.exists(fn):
+    if not os.path.exists(fn)  and _testMode == False:
         os.makedirs(fn)
         
     moveFiles(fileName,fn)
@@ -49,8 +58,8 @@ def moveFiles(file,folder):
     print('Moving file: '+ name)
     print('From: ' + file)
     print('To: ' + folder)
-
-    os.replace(file, folder + '\\' + name)
+    if(_testMode == False):
+        os.replace(file, folder + '\\' + name)
 
 
 readFiles()
