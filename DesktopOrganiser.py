@@ -1,25 +1,52 @@
+from cgitb import text
+from distutils.command.config import config
 import os
+from tkinter import *
+from tkinter import ttk
 
     # Configs
 
 _directory = 'C:\\Users\\seang\\OneDrive\\Desktop\\Test'
 _useCurrentDir = False
 _renameFile = False
-_testMode = True
+_testMode = False
+log = []
+
+
+ 
+def GUI():
+
+    root = Tk()
+    frm = ttk.Frame(root, padding=10)
+    frm.grid()
+
+    var = StringVar()
+
+    ttk.Label(frm, text="Hello World!").grid(column=0, row=0)
+    ttk.Label(frm, text="Rename files:").grid(column=0, row=1)
+    ttk.Radiobutton(frm, text="Yes",variable=var,value='Y').grid(column=0,row=2)
+    ttk.Radiobutton(frm, text="No",variable=var,value='N').grid(column=1,row=2)
+    ttk.Button(frm,text="Execute", command=readFiles).grid(column=0,row=3)
+    ttk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=3)
+    root.mainloop()
+    
+
+
 
 
 def readFiles():
+    dir = _directory
     fileNames = []
     inp = '_'
 
     # Get all files in Directory with {inp} in name
 
-    #if(_useCurrentDir):
-        #_directory = os.getcwd()
+    if(_useCurrentDir):
+        dir = os.getcwd()
     
-    print('current:'+os.getcwd())
+    print('current:'+ os.getcwd())
 
-    for r, d, f in os.walk(_directory):
+    for r, d, f in os.walk(dir):
         for file in f:
             filepath = os.path.join(r, file)
             if inp in file:                                
@@ -62,4 +89,4 @@ def moveFiles(file,folder):
         os.replace(file, folder + '\\' + name)
 
 
-readFiles()
+GUI()
